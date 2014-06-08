@@ -1,4 +1,4 @@
 LaMeta
 ======
 
-lab-si1 parte 2
+lab2-si1 parte 2
