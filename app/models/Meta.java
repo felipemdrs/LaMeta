@@ -1,6 +1,5 @@
 package models;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,18 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import models.exceptions.MetaInvalidaException;
 import play.data.validation.Constraints;
-import play.data.validation.Constraints.Required;
 
 @Entity
 @Table(name = "Meta")
 public class Meta {
-
-	@Transient
-	private final int MAX_DE_DIAS_DA_META = 42;
 
 	@Id
 	@GeneratedValue
@@ -35,21 +29,26 @@ public class Meta {
 
 	@Column(name = "prioridade")
 	@Constraints.Required
-	public Prioridade prioridade;
+	private Prioridade prioridade;
 
-	@Column(name = "data_de_finalizacao")
+	@Column(name = "duracao")
 	@Constraints.Required
-	public Date dataDeFinalizacao;
+	private Duracao duracao;
+
+	@Column(name = "data_de_criacao")
+	@Constraints.Required
+	public Date dataDeCriacao;
 
 	public Meta() {
 
 	}
 
-	public Meta(String descricao, Prioridade prioridade,
-			Date dataDeFinalizacao) throws MetaInvalidaException {
+	public Meta(String descricao, Prioridade prioridade, Duracao duracao)
+			throws MetaInvalidaException {
 		setDescricao(descricao);
 		setPrioridade(prioridade);
-		setDataDeFinalizacao(dataDeFinalizacao);
+		setDuracao(duracao);
+		setDataDeCriacao(new Date());
 	}
 
 	public int getId() {
@@ -85,39 +84,28 @@ public class Meta {
 		this.prioridade = prioridade;
 	}
 
-	public Date getDataDeFinalizacao() {
-		return dataDeFinalizacao;
+	public Duracao getDuracao() {
+		return duracao;
 	}
 
-	public void setDataDeFinalizacao(Date dataDeFinalizacao)
+	public void setDuracao(Duracao duracao) throws MetaInvalidaException {
+
+		if (duracao == null)
+			throw new MetaInvalidaException("Parametro nulo");
+
+		this.duracao = duracao;
+	}
+
+	public Date getDataDeCriacao() {
+		return dataDeCriacao;
+	}
+
+	public void setDataDeCriacao(Date dataDeCriacao)
 			throws MetaInvalidaException {
 
-		if (dataDeFinalizacao == null)
+		if (dataDeCriacao == null)
 			throw new MetaInvalidaException("Parametro nulo");
-		if (dataDeFinalizacao.compareTo(getDataMaximaDaMeta()) > 0)
-			throw new MetaInvalidaException("Data inválida");
 
-		dataDeFinalizacao = normalizarData(dataDeFinalizacao);
-		this.dataDeFinalizacao = dataDeFinalizacao;
-	}
-
-	public Date getDataMaximaDaMeta() {
-		Calendar maxDate = Calendar.getInstance();
-		maxDate.add(Calendar.DATE, MAX_DE_DIAS_DA_META);
-
-		return maxDate.getTime();
-	}
-
-	private Date normalizarData(Date date) {
-		
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(date.getTime());
-		
-		calendar.set(Calendar.HOUR_OF_DAY, 0);
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
-		calendar.set(Calendar.MILLISECOND, 0);
-		
-		return calendar.getTime();
+		this.dataDeCriacao = dataDeCriacao;
 	}
 }
