@@ -1,6 +1,7 @@
 package models;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.Transient;
 
 import models.exceptions.MetaInvalidaException;
 import play.data.validation.Constraints;
+import play.data.validation.Constraints.Required;
 
 @Entity
 @Table(name = "Meta")
@@ -29,23 +31,22 @@ public class Meta {
 	private String descricao;
 
 	@Column(name = "alcancada")
-	@Constraints.Required
 	private boolean alcancada;
 
 	@Column(name = "prioridade")
 	@Constraints.Required
-	private Prioridade prioridade;
+	public Prioridade prioridade;
 
 	@Column(name = "data_de_finalizacao")
 	@Constraints.Required
-	private Calendar dataDeFinalizacao;
+	public Date dataDeFinalizacao;
 
 	public Meta() {
 
 	}
 
 	public Meta(String descricao, Prioridade prioridade,
-			Calendar dataDeFinalizacao) throws MetaInvalidaException {
+			Date dataDeFinalizacao) throws MetaInvalidaException {
 		setDescricao(descricao);
 		setPrioridade(prioridade);
 		setDataDeFinalizacao(dataDeFinalizacao);
@@ -59,7 +60,7 @@ public class Meta {
 		return descricao;
 	}
 
-	private void setDescricao(String descricao) throws MetaInvalidaException {
+	public void setDescricao(String descricao) throws MetaInvalidaException {
 		if (descricao == null)
 			throw new MetaInvalidaException("Parametro nulo");
 		this.descricao = descricao;
@@ -77,18 +78,18 @@ public class Meta {
 		return prioridade;
 	}
 
-	private void setPrioridade(Prioridade prioridade)
+	public void setPrioridade(Prioridade prioridade)
 			throws MetaInvalidaException {
 		if (prioridade == null)
 			throw new MetaInvalidaException("Parametro nulo");
 		this.prioridade = prioridade;
 	}
 
-	public Calendar getDataDeFinalizacao() {
+	public Date getDataDeFinalizacao() {
 		return dataDeFinalizacao;
 	}
 
-	private void setDataDeFinalizacao(Calendar dataDeFinalizacao)
+	public void setDataDeFinalizacao(Date dataDeFinalizacao)
 			throws MetaInvalidaException {
 
 		if (dataDeFinalizacao == null)
@@ -96,21 +97,27 @@ public class Meta {
 		if (dataDeFinalizacao.compareTo(getDataMaximaDaMeta()) > 0)
 			throw new MetaInvalidaException("Data inválida");
 
-		normalizarData(dataDeFinalizacao);
+		dataDeFinalizacao = normalizarData(dataDeFinalizacao);
 		this.dataDeFinalizacao = dataDeFinalizacao;
 	}
 
-	public Calendar getDataMaximaDaMeta() {
+	public Date getDataMaximaDaMeta() {
 		Calendar maxDate = Calendar.getInstance();
 		maxDate.add(Calendar.DATE, MAX_DE_DIAS_DA_META);
 
-		return maxDate;
+		return maxDate.getTime();
 	}
 
-	private void normalizarData(Calendar calendar) {
+	private Date normalizarData(Date date) {
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(date.getTime());
+		
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
+		
+		return calendar.getTime();
 	}
 }

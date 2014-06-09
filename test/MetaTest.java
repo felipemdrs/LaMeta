@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import models.Meta;
 import models.Prioridade;
@@ -24,8 +25,7 @@ public class MetaTest {
 	@Test
 	public void deveCriarUmaMeta() {
 		try {
-			meta = new Meta("Minha 1ª meta", Prioridade.ALTA,
-					Calendar.getInstance());
+			meta = new Meta("Minha 1ª meta", Prioridade.ALTA, new Date());
 		} catch (MetaInvalidaException e) {
 			fail();
 		}
@@ -34,13 +34,13 @@ public class MetaTest {
 	@Test
 	public void deveOcorrerExceptionSeAlgumParametroForNulo() {
 		try {
-			meta = new Meta(null, Prioridade.ALTA, Calendar.getInstance());
+			meta = new Meta(null, Prioridade.ALTA, new Date());
 			fail();
 		} catch (MetaInvalidaException e) {
 			assertEquals("Parametro nulo", e.getMessage());
 		}
 		try {
-			meta = new Meta("Minha 1ª meta", null, Calendar.getInstance());
+			meta = new Meta("Minha 1ª meta", null, new Date());
 			fail();
 		} catch (MetaInvalidaException e) {
 			assertEquals("Parametro nulo", e.getMessage());
@@ -61,7 +61,8 @@ public class MetaTest {
 			Calendar calendar = Calendar.getInstance();
 			calendar.add(Calendar.DATE, 43);
 
-			meta = new Meta("Minha 1ª meta", Prioridade.ALTA, calendar);
+			meta = new Meta("Minha 1ª meta", Prioridade.ALTA,
+					calendar.getTime());
 			fail();
 		} catch (MetaInvalidaException e) {
 			assertEquals("Data inválida", e.getMessage());
@@ -71,47 +72,50 @@ public class MetaTest {
 	@Test
 	public void dataDeveEstarNormalizada() {
 		try {
-			meta = new Meta("Minha 1ª meta", Prioridade.ALTA,
-					Calendar.getInstance());
+			meta = new Meta("Minha 1ª meta", Prioridade.ALTA, new Date());
 		} catch (MetaInvalidaException e) {
 			fail();
 		}
 
-		Calendar dataDeFinalizacao = meta.getDataDeFinalizacao();
+		Date dataDeFinalizacao = meta.getDataDeFinalizacao();
 
-		assertEquals(0, dataDeFinalizacao.get(Calendar.HOUR));
-		assertEquals(0, dataDeFinalizacao.get(Calendar.MINUTE));
-		assertEquals(0, dataDeFinalizacao.get(Calendar.SECOND));
-		assertEquals(0, dataDeFinalizacao.get(Calendar.MILLISECOND));
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(dataDeFinalizacao.getTime());
+
+		assertEquals(0, calendar.get(Calendar.HOUR));
+		assertEquals(0, calendar.get(Calendar.MINUTE));
+		assertEquals(0, calendar.get(Calendar.SECOND));
+		assertEquals(0, calendar.get(Calendar.MILLISECOND));
 
 		// Teste para garantir que o teste não está sendo executado às
 		// 00:00:00:00
 
-		Calendar calendar = Calendar.getInstance();
+		calendar = Calendar.getInstance();
 		calendar.add(Calendar.HOUR, 1);
 		calendar.add(Calendar.MINUTE, 1);
 		calendar.add(Calendar.SECOND, 1);
 		calendar.add(Calendar.MILLISECOND, 1);
 
 		try {
-			meta = new Meta("Minha 1ª meta", Prioridade.ALTA, calendar);
+			meta = new Meta("Minha 1ª meta", Prioridade.ALTA,
+					calendar.getTime());
 		} catch (MetaInvalidaException e) {
 			fail();
 		}
 
 		dataDeFinalizacao = meta.getDataDeFinalizacao();
+		calendar.setTimeInMillis(dataDeFinalizacao.getTime());
 
-		assertEquals(0, dataDeFinalizacao.get(Calendar.HOUR));
-		assertEquals(0, dataDeFinalizacao.get(Calendar.MINUTE));
-		assertEquals(0, dataDeFinalizacao.get(Calendar.SECOND));
-		assertEquals(0, dataDeFinalizacao.get(Calendar.MILLISECOND));
+		assertEquals(0, calendar.get(Calendar.HOUR));
+		assertEquals(0, calendar.get(Calendar.MINUTE));
+		assertEquals(0, calendar.get(Calendar.SECOND));
+		assertEquals(0, calendar.get(Calendar.MILLISECOND));
 	}
 
 	@Test
 	public void deveTrocarSeAlcancouOuNaoAMeta() {
 		try {
-			meta = new Meta("Minha 1ª meta", Prioridade.ALTA,
-					Calendar.getInstance());
+			meta = new Meta("Minha 1ª meta", Prioridade.ALTA, new Date());
 		} catch (MetaInvalidaException e) {
 			fail();
 		}
