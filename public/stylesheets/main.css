@@ -1,4 +1,4 @@
-ul h2, ul h3, ul h4, ul h5,ul h6 {
+ul h2,ul h3,ul h4,ul h5,ul h6 {
 	color: #505050;
 	font-size: 20px;
 	font-family: 'Myriad pro', Corbel, Arial, Helvetica, sans-serif;
@@ -29,8 +29,8 @@ ul.sticky_notes {
 }
 
 ul.sticky_notes li {
-	width: 160px;
-	height: 140px;
+	width: 180px;
+	height: 160px;
 	padding: 20px;
 	margin: 20px;
 	/* Firefox */
@@ -92,7 +92,7 @@ ul.sticky_notes li:nth-child(6n) {
 }
 
 #sortable1 li {
-	margin: 20px 20px 20px 10px;
+	margin: 20px 20px 20px 55px;
 	padding: 1px;
 	display: inline-block;
 	float: inherit;
@@ -112,4 +112,40 @@ ul.sticky_notes li:nth-child(6n) {
 	display: inline-block;
 	float: inherit;
 	text-align: center;
+}
+
+html {
+	height: 100%;
+}
+
+body {
+	padding: 0 0;
+	margin: 0 0;
+	height: 100%;
+	background: grey;
+}
+
+#container {
+	display: table;
+	height: 100%;
+	width: 100%;
+	background: rgb(82, 151, 56);
+}
+
+#autoHeight {
+	display: table-row;
+	background: white;
+	height: 50%;
+}
+
+#remainingHeight {
+	display: table-row;
+	height: 50%;
+	overflow: auto;
+	background: rgb(82, 151, 56);
+}
+
+.m-top {
+	float: left;
+	padding-top: 15px;
 }
