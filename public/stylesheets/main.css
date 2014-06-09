@@ -1,0 +1,115 @@
+ul h2, ul h3, ul h4, ul h5,ul h6 {
+	color: #505050;
+	font-size: 20px;
+	font-family: 'Myriad pro', Corbel, Arial, Helvetica, sans-serif;
+	letter-spacing: -2px;
+	font-weight: bold;
+}
+
+a {
+	color: #4C7895;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+ul {
+	color: #888;
+	padding: 0;
+	margin: 0;
+	font: 83% 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	-webkit-font-smoothing: antialiased;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+ul.sticky_notes {
+	list-style: none;
+}
+
+ul.sticky_notes li {
+	width: 160px;
+	height: 140px;
+	padding: 20px;
+	margin: 20px;
+	/* Firefox */
+	-moz-box-shadow: 5px 5px 7px rgba(33, 33, 33, 1);
+	/* Safari+Chrome */
+	-webkit-box-shadow: 5px 5px 7px rgba(33, 33, 33, .7);
+	/* Opera */
+	box-shadow: 5px 5px 7px rgba(33, 33, 33, .7);
+	-webkit-transform: rotate(-6deg);
+	-o-transform: rotate(-6deg);
+	-moz-transform: rotate(-6deg);
+	font-family: 'Short Stack', cursive;
+}
+
+ul.sticky_notes p {
+	font-size: 16px;
+}
+
+ul.sticky_notes li:nth-child(odd) {
+	-webkit-font-smoothing: antialiased;
+	-o-transform: rotate(4deg);
+	-webkit-transform: rotate(4deg);
+	-moz-transform: rotate(4deg);
+	position: relative;
+	top: 5px;
+}
+
+ul.sticky_notes li:nth-child(2n) {
+	-webkit-font-smoothing: antialiased;
+	-o-transform: rotate(-3deg);
+	-webkit-transform: rotate(-3deg);
+	-moz-transform: rotate(-3deg);
+	position: relative;
+	top: -5px;
+}
+
+ul.sticky_notes li:nth-child(6n) {
+	-webkit-font-smoothing: antialiased;
+	-o-transform: rotate(5deg);
+	-webkit-transform: rotate(5deg);
+	-moz-transform: rotate(5deg);
+	position: relative;
+	top: -10px;
+}
+
+.yellow {
+	background: #ffc;
+}
+
+.green {
+	background: #cfc;
+}
+
+#sortable1 {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+}
+
+#sortable1 li {
+	margin: 20px 20px 20px 10px;
+	padding: 1px;
+	display: inline-block;
+	float: inherit;
+	text-align: center;
+}
+
+#sortable2 {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+}
+
+#sortable2 li {
+	margin: 20px 20px 20px 10px;
+	padding: 1px;
+	display: inline-block;
+	float: inherit;
+	text-align: center;
+}
