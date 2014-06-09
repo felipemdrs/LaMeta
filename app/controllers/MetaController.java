@@ -1,13 +1,18 @@
 package controllers;
 
 import static play.data.Form.form;
+
+import java.util.List;
+
 import models.Meta;
 import models.dao.GenericDAO;
 import models.dao.GenericDAOImpl;
 import play.data.Form;
+import play.data.validation.ValidationError;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.index;
 
 public class MetaController extends Controller {
 
@@ -19,16 +24,20 @@ public class MetaController extends Controller {
 		Form<Meta> loginForm = metaForm.bindFromRequest();
 
 		if (loginForm.hasErrors()) {
-			/* Debug
-	            java.util.Map<String, List<play.data.validation.ValidationError>> errorsAll = loginForm.errors();
-	            for (String field : errorsAll.keySet()) {
-	                errorMsg += field + " ";
-	                for (ValidationError error : errorsAll.get(field)) {
-	                    errorMsg += error.message() + ", ";
-	                }
-	            }
-				return badRequest(index.render(errorMsg, metaForm));
-			 */
+			/* Debug */
+
+			String errorMsg = "";
+			java.util.Map<String, List<play.data.validation.ValidationError>> errorsAll = loginForm
+					.errors();
+			for (String field : errorsAll.keySet()) {
+				errorMsg += field + " ";
+				for (ValidationError error : errorsAll.get(field)) {
+					errorMsg += error.message() + ", ";
+				}
+			}
+			
+			System.err.println("Erro no formulário: " + errorMsg);
+
 			return badRequest();
 		} else {
 			Meta novaMeta = loginForm.get();

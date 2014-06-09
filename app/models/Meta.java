@@ -36,8 +36,7 @@ public class Meta {
 	private Duracao duracao;
 
 	@Column(name = "data_de_criacao")
-	@Constraints.Required
-	public Date dataDeCriacao;
+	private Date dataDeCriacao;
 
 	public Meta() {
 
