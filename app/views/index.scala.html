@@ -1,4 +1,4 @@
-@(message: String, signupForm: Form[Meta])
+@(todasMetas: List[List[Meta]], signupForm: Form[Meta])
 
 @import helper._
 
@@ -6,11 +6,11 @@
 
 @main("Welcome to Play") {
 
-@message
+
 	<nav class="navbar navbar-static-top " style="background-color: rgb(66, 75, 102);" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#"><span class="light-color navbar-title">Sistema de informa&ccedil;&atilde;o 1</span></a>
+                <a class="navbar-brand" href="#"><span class="light-color navbar-title">Sistema de informa&ccedil;&atilde;o 1 </span></a>
             </div>
         </div>
     </nav>
@@ -28,63 +28,72 @@
     	$(window).scroll(fixDiv);
     	fixDiv();
     </script>
-    <div style="display:none">
-    @helper.form(action = routes.MetaController.nova, 'id -> "form") {
-	    @inputText(
-            signupForm("descricao"), 
-            '_label -> "Descricao", 
-            '_help -> "Please choose a valid username."
-        )
-        
-        <select name="prioridade">
-		    @for(cType <- models.Prioridade.values()){
-		        <option value="@cType.name()">@cType.getDescricao()</option>
-		    }
-		</select>
-         
-         @inputDate(signupForm("dataDeFinalizacao"), '_label -> "Birthdate", '_help -> "format dd/MM/yyy")
-        
-        <input type="submit"/>
-    
-    }</div>
-    
+
     <div id="container">
 	    <div id="autoHeight" class="fixed" style="width:100%;z-index:1;height:50px" >
-	    	<a class="btn btn-default" style="font-size:18px;margin-left:15px">Nova meta</a>
+	    	<a class="btn btn-default" style="font-size:18px;margin-left:15px" data-toggle="modal" data-target="#modal-nova-meta">Nova meta</a>
 	    </div>
 	    <div id="remainingHeight">
-			<h2 style="color:white;font-family:'Short Stack', cursive">Para 2 semanas</h2>
-   		<hr class="col-md-4" style="border-top:3px dashed white;margin-top:-5px"/><br><br>
-   <ul class="sticky_notes  connectedSortable" id="sortable1"/>
-		<li class="green"><span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: Alta<span style="float:right;margin-right:5px;cursor:pointer"><a onclick="alert('ok')">x</a></span></span><span class="m-top">Terminar a parte2 do LAB2 de SI1. Devo concluir mesmo.</span><span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span></li>
-		<li class="yellow"><span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: Alta<span style="float:right;margin-right:5px;cursor:pointer"><a onclick="alert('ok')">x</a></span></span><span class="m-top">Terminar o LAB2 de SI1 até a data prevista.</span><span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span></li>
-		<li class="green"><span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: Alta<span style="float:right;margin-right:5px;cursor:pointer"><a onclick="alert('ok')">x</a></span></span><span class="m-top">Terminar a parte2 do LAB2 de SI1. Devo concluir mesmo.<span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span></li>
-		<li class="yellow"><span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: Alta<span style="float:right;margin-right:5px;cursor:pointer"><a onclick="alert('ok')">x</a></span></span><span class="m-top">Terminar o LAB2 de SI1 até a data prevista.</span><span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span></li>
-		<li class="green"><span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: Alta<span style="float:right;margin-right:5px;cursor:pointer"><a onclick="alert('ok')">x</a></span></span><span class="m-top">Terminar a parte2 do LAB2 de SI1. Devo concluir mesmo.</span><span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span></li>
-		<li class="yellow"><span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: Alta<span style="float:right;margin-right:5px;cursor:pointer"><a onclick="alert('ok')">x</a></span></span><span class="m-top">Terminar o LAB2 de SI1 até a data prevista.</span><span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span></li>
-		<li class="green"><span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: Alta<span style="float:right;margin-right:5px;cursor:pointer"><a onclick="alert('ok')">x</a></span></span><span class="m-top">Terminar a parte2 do LAB2 de SI1. Devo concluir mesmo.</span><span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span></li>
-	</ul>
-		<br><br>
-		<h2 style="color:white;font-family:'Short Stack', cursive">Para 3 semanas</h2>
-   		<hr class="col-md-4" style="border-top:3px dashed white;margin-top:-5px"/><br><br>
-   <ul class="sticky_notes  connectedSortable" id="sortable1"/>
-		<li class="green"><span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: Alta<span style="float:right;margin-right:5px;cursor:pointer"><a onclick="alert('ok')">x</a></span></span><h2>Prazo: 11/06/14</h2>Terminar a parte2 do LAB2 de SI1. Devo concluir mesmo.<span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span></li>
-		<li class="yellow"><span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: Alta<span style="float:right;margin-right:5px;cursor:pointer"><a onclick="alert('ok')">x</a></span></span><h2>Prazo: 16/06/14</h2>Terminar o LAB2 de SI1 até a data prevista.<span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span></li>
-		<li class="green"><span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: Alta<span style="float:right;margin-right:5px;cursor:pointer"><a onclick="alert('ok')">x</a></span></span><h2>Prazo: 11/06/14</h2>Terminar a parte2 do LAB2 de SI1. Devo concluir mesmo.<span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span></li>
-		<li class="yellow"><span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: Alta<span style="float:right;margin-right:5px;cursor:pointer"><a onclick="alert('ok')">x</a></span></span><h2>Prazo: 16/06/14</h2>Terminar o LAB2 de SI1 até a data prevista.<span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span></li>
-		<li class="green"><span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: Alta<span style="float:right;margin-right:5px;cursor:pointer"><a onclick="alert('ok')">x</a></span></span><h2>Prazo: 11/06/14</h2>Terminar a parte2 do LAB2 de SI1. Devo concluir mesmo.<span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span></li>
-		<li class="yellow"><span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: Alta<span style="float:right;margin-right:5px;cursor:pointer"><a onclick="alert('ok')">x</a></span></span><h2>Prazo: 16/06/14</h2>Terminar o LAB2 de SI1 até a data prevista.<span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span></li>
-		<li class="green"><span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: Alta<span style="float:right;margin-right:5px;cursor:pointer"><a onclick="alert('ok')">x</a></span></span><h2>Prazo: 11/06/14</h2>Terminar a parte2 do LAB2 de SI1. Devo concluir mesmo.<span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span></li>
-		<li class="green"><span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: Alta<span style="float:right;margin-right:5px;cursor:pointer"><a onclick="alert('ok')">x</a></span></span><h2>Prazo: 11/06/14</h2>Terminar a parte2 do LAB2 de SI1. Devo concluir mesmo.<span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span></li>
-		<li class="yellow"><span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: Alta<span style="float:right;margin-right:5px;cursor:pointer"><a onclick="alert('ok')">x</a></span></span><h2>Prazo: 16/06/14</h2>Terminar o LAB2 de SI1 até a data prevista.<span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span></li>
-		<li class="green"><span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: Alta<span style="float:right;margin-right:5px;cursor:pointer"><a onclick="alert('ok')">x</a></span></span><h2>Prazo: 11/06/14</h2>Terminar a parte2 do LAB2 de SI1. Devo concluir mesmo.<span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span></li>
-		<li class="yellow"><span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: Alta<span style="float:right;margin-right:5px;cursor:pointer"><a onclick="alert('ok')">x</a></span></span><h2>Prazo: 16/06/14</h2>Terminar o LAB2 de SI1 até a data prevista.<span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span></li>
-		<li class="green"><span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: Alta<span style="float:right;margin-right:5px;cursor:pointer"><a onclick="alert('ok')">x</a></span></span><h2>Prazo: 11/06/14</h2>Terminar a parte2 do LAB2 de SI1. Devo concluir mesmo.<span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span></li>
-		<li class="yellow"><span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: Alta<span style="float:right;margin-right:5px;cursor:pointer"><a onclick="alert('ok')">x</a></span></span><h2>Prazo: 16/06/14</h2>Terminar o LAB2 de SI1 até a data prevista.<span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span></li>
-		<li class="green"><span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: Alta<span style="float:right;margin-right:5px;cursor:pointer"><a onclick="alert('ok')">x</a></span></span><h2>Prazo: 11/06/14</h2>Terminar a parte2 do LAB2 de SI1. Devo concluir mesmo.<span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span></li>
-		
-	</ul>
+	    
+   		@for(i <- 0 until todasMetas.length){
+			<h2 style="color:white;font-family:'Short Stack', cursive">Para @(i+1) semana</h2>
+   			<hr class="col-md-4" style="border-top:3px dashed white;margin-top:-5px"/><br><br>
+   			<ul class="sticky_notes  connectedSortable" id="sortable1"/>
+   			@for(meta <- todasMetas.get(i)){
+	 			<li class="green">
+	   				<span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: @meta.getPrioridade.name()
+	   					<span style="float:right;margin-right:5px;cursor:pointer">
+	   						<a onclick="alert('ok')">x</a>
+	   					</span>
+	   				</span><span class="m-top">@meta.getDescricao()</span>
+	   				<span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span>
+	   			</li> 
+   			}
+   			</ul>
+   		}
+	
 		</div>   
 	</div>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="modal-nova-meta" tabindex="-1" role="dialog" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+	      </div>
+	      <div class="modal-body">
+	        @helper.form(action = routes.MetaController.nova, 'id -> "form-nova-meta") {
+			    @inputText(
+		            signupForm("descricao"), 
+		            '_label -> "Descrição", 
+		            '_help -> "Obrigatório",
+		            'class -> "form-control"
+		        )
+		        <label for="descricao">Piroridade da meta</label>
+		        <select name="prioridade" class="form-control">
+				    @for(cType <- models.Prioridade.values()){
+				        <option value="@cType.name()">@cType.getDescricao()</option>
+				    }
+				</select>
+				<br>
+				<label for="descricao">Prazo para alcançar a meta</label>
+				<select name="duracao" class="form-control">
+				    @for(cType <- models.Duracao.values()){
+				        <option value="@cType.name()">@cType.getDescricao()</option>
+				    }
+				</select>
+		    
+		    }
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+	        <button type="submit"  form="form-nova-meta" class="btn btn-primary">Criar</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
 
 }

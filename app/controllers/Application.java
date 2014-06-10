@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
+import models.Duracao;
 import models.Meta;
 import models.Prioridade;
 import models.dao.GenericDAO;
@@ -22,35 +23,77 @@ import views.html.*;
 public class Application extends Controller {
 
 	final static Form<Meta> signupForm = form(Meta.class);
-	
+	private static boolean criouMetasFake = false;
+
 	@Transactional
 	public static Result index() {
-/*
-		Meta meta = null;
+		/*
+		 * Meta meta = null;
+		 * 
+		 * try { meta = new Meta("Minha 1ª meta", Prioridade.ALTA,
+		 * Calendar.getInstance());
+		 * 
+		 * dao.persist(meta); dao.merge(meta); dao.flush();
+		 * 
+		 * } catch (MetaInvalidaException e) { }
+		 */
 
-		try {
-			meta = new Meta("Minha 1ª meta", Prioridade.ALTA,
-					Calendar.getInstance());
-
-			dao.persist(meta);
-			dao.merge(meta);
-			dao.flush();
-
-		} catch (MetaInvalidaException e) {
-		}*/
-
-		List<Meta> me = dao.findAllByClassName("Meta");
-		
-		String ok = "";
-		for (Meta meta2 : me) {
-			ok += String.valueOf(meta2.getDescricao()) + " ";
+		if (!criouMetasFake) {
+			criarMetasFake();
 		}
-		System.out.println("ok "+ok);
-		return ok(index.render(ok, signupForm));
+
+		List<Meta> metas = dao.findAllByClassName("Meta");
+		
+		System.out.println(metas.size());
+
+		return ok(index.render(MetaController.getMetas(), signupForm));
 	}
-	
-	public static Result submit() {
-		return ok(index.render("ok", signupForm));
+
+	private static void criarMetasFake() {
+		try {
+			int i = 0;
+
+			criaMeta(new Meta("Minha " + String.valueOf(i++)
+					+ "ª meta fake para meu projeto de SI1", Prioridade.ALTA,
+					Duracao.UMA_SEMANA));
+			criaMeta(new Meta("Minha " + String.valueOf(i++)
+					+ "ª meta fake para meu projeto de SI1", Prioridade.BAIXA,
+					Duracao.UMA_SEMANA));
+			criaMeta(new Meta("Minha " + String.valueOf(i++)
+					+ "ª meta fake para meu projeto de SI1", Prioridade.MEDIA,
+					Duracao.UMA_SEMANA));
+			criaMeta(new Meta("Minha " + String.valueOf(i++)
+					+ "ª meta fake para meu projeto de SI1", Prioridade.BAIXA,
+					Duracao.DUAS_SEMANAS));
+			criaMeta(new Meta("Minha " + String.valueOf(i++)
+					+ "ª meta fake para meu projeto de SI1", Prioridade.MEDIA,
+					Duracao.DUAS_SEMANAS));
+			criaMeta(new Meta("Minha " + String.valueOf(i++)
+					+ "ª meta fake para meu projeto de SI1", Prioridade.ALTA,
+					Duracao.TRES_SEMANAS));
+			criaMeta(new Meta("Minha " + String.valueOf(i++)
+					+ "ª meta fake para meu projeto de SI1", Prioridade.MEDIA,
+					Duracao.TRES_SEMANAS));
+			criaMeta(new Meta("Minha " + String.valueOf(i++)
+					+ "ª meta fake para meu projeto de SI1", Prioridade.BAIXA,
+					Duracao.QUATRO_SEMANAS));
+			criaMeta(new Meta("Minha " + String.valueOf(i++)
+					+ "ª meta fake para meu projeto de SI1", Prioridade.BAIXA,
+					Duracao.CINCO_SEMANAS));
+			criaMeta(new Meta("Minha " + String.valueOf(i++)
+					+ "ª meta fake para meu projeto de SI1", Prioridade.ALTA,
+					Duracao.SEIS_SEMANAS));
+			System.out.println("Criando");
+		} catch (MetaInvalidaException _) {
+		} finally {
+			criouMetasFake = true;
+		}
+	}
+
+	@Transactional
+	private static void criaMeta(Meta meta) {
+		dao.persist(meta);
+		dao.flush();
 	}
 
 	private static GenericDAO dao = new GenericDAOImpl();

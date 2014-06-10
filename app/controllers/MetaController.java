@@ -2,9 +2,15 @@ package controllers;
 
 import static play.data.Form.form;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import models.Duracao;
 import models.Meta;
+import models.MetaComparator;
 import models.dao.GenericDAO;
 import models.dao.GenericDAOImpl;
 import play.data.Form;
@@ -12,7 +18,6 @@ import play.data.validation.ValidationError;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.index;
 
 public class MetaController extends Controller {
 
@@ -22,7 +27,7 @@ public class MetaController extends Controller {
 	@Transactional
 	public static Result nova() {
 		Form<Meta> loginForm = metaForm.bindFromRequest();
-
+		
 		if (loginForm.hasErrors()) {
 			/* Debug */
 
@@ -46,6 +51,25 @@ public class MetaController extends Controller {
 			dao.flush();
 			return ok();
 		}
+	}
+	
+	@Transactional
+	public static List<List<Meta>> getMetas(){
+		List<List<Meta>> metas = new ArrayList<>(5);
+		
+		for (int i = 0; i < 6; i++) {
+			metas.add(new ArrayList<Meta>());
+		}
+		
+		List<Meta> todasMetas = dao.findAllByClassName("Meta");
+		
+		Collections.sort(todasMetas, new MetaComparator());
+		
+		for (Meta meta : todasMetas) {
+			metas.get(meta.getDuracao().getTipo()).add(meta);
+		}
+		
+		return metas;
 	}
 
 	public static void alcancada(long id) {
