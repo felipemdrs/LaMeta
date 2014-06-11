@@ -46,13 +46,13 @@ public class MetaController extends Controller {
 
 			System.err.println("Erro no formulário: " + errorMsg);
 
-			return badRequest(index.render(getMetas(), Application.SIGNUP_FORM));
+			return redirect(controllers.routes.Application.index()); 
 		} else {
 			Meta novaMeta = loginForm.get();
 			dao.persist(novaMeta);
 			dao.merge(novaMeta);
 			dao.flush();
-			return ok(index.render(getMetas(), Application.SIGNUP_FORM));
+			return redirect(controllers.routes.Application.index()); 
 		}
 	}
 
