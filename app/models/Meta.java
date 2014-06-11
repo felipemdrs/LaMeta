@@ -18,7 +18,7 @@ public class Meta {
 	@Id
 	@GeneratedValue
 	@Column(name = "id")
-	private int id;
+	private long id;
 
 	@Column(name = "descricao")
 	@Constraints.Required
@@ -50,7 +50,7 @@ public class Meta {
 		setDataDeCriacao(new Date());
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 

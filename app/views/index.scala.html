@@ -38,18 +38,24 @@
    		@for(i <- 0 until todasMetas.length){
 			<h2 style="color:white;font-family:'Short Stack', cursive">Para @(i+1) semana</h2>
    			<hr class="col-md-4" style="border-top:3px dashed white;margin-top:-5px"/><br><br>
-   			<ul class="sticky_notes  connectedSortable" id="sortable1"/>
-   			@for(meta <- todasMetas.get(i)){
-	 			<li class="green">
-	   				<span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: @meta.getPrioridade.name()
-	   					<span style="float:right;margin-right:5px;cursor:pointer">
-	   						<a onclick="alert('ok')">x</a>
-	   					</span>
-	   				</span><span class="m-top">@meta.getDescricao()</span>
-	   				<span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span>
-	   			</li> 
-   			}
-   			</ul>
+   			<div class="metas">
+	   			<ul class="sticky_notes  connectedSortable" id="sortable1"/>
+	   			@if(todasMetas.get(i).length == 0){
+	   				<h3 style="color:white;font-family:'Short Stack', cursive">Nenhuma meta para está semana</h3>
+	   			}else{
+		   			@for(meta <- todasMetas.get(i)){
+			 			<li class="green" data-id="@meta.getId()">
+			   				<span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: @meta.getPrioridade.name()
+			   					<span style="float:right;margin-right:5px;cursor:pointer">
+			   						<a class="deletar popconfirm">x</a>
+			   					</span>
+			   				</span><span class="m-top">@meta.getDescricao()</span>
+			   				<span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span>
+			   			</li> 
+		   			}
+	   			}
+	   			</ul>
+   			</div>
    		}
 	
 		</div>   
@@ -61,7 +67,7 @@
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+	        <h4 class="modal-title" id="myModalLabel">Nova meta</h4>
 	      </div>
 	      <div class="modal-body">
 	        @helper.form(action = routes.MetaController.nova, 'id -> "form-nova-meta") {
@@ -69,7 +75,8 @@
 		            signupForm("descricao"), 
 		            '_label -> "Descrição", 
 		            '_help -> "Obrigatório",
-		            'class -> "form-control"
+		            'class -> "form-control",
+		            'required -> "required"
 		        )
 		        <label for="descricao">Piroridade da meta</label>
 		        <select name="prioridade" class="form-control">
@@ -88,7 +95,7 @@
 		    }
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar	</button>
 	        <button type="submit"  form="form-nova-meta" class="btn btn-primary">Criar</button>
 	      </div>
 	    </div>

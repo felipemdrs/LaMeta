@@ -18,11 +18,12 @@ import play.*;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.*;
+import scala.collection.immutable.Page;
 import views.html.*;
 
 public class Application extends Controller {
 
-	final static Form<Meta> signupForm = form(Meta.class);
+	public final static Form<Meta> SIGNUP_FORM = form(Meta.class);
 	private static boolean criouMetasFake = false;
 
 	@Transactional
@@ -46,7 +47,7 @@ public class Application extends Controller {
 		
 		System.out.println(metas.size());
 
-		return ok(index.render(MetaController.getMetas(), signupForm));
+		return ok(index.render(MetaController.getMetas(), SIGNUP_FORM));
 	}
 
 	private static void criarMetasFake() {
