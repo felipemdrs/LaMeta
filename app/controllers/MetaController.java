@@ -22,11 +22,10 @@ public class MetaController extends Controller {
 	private static GenericDAO dao = new GenericDAOImpl();
 	final static Form<Meta> metaForm = form(Meta.class);
 
-	
-	public static Result index(){
-		return redirect(controllers.routes.Application.index()); 
+	public static Result index() {
+		return redirect(controllers.routes.Application.index());
 	}
-	
+
 	@Transactional
 	public static Result nova() {
 		Form<Meta> loginForm = metaForm.bindFromRequest();
@@ -46,13 +45,13 @@ public class MetaController extends Controller {
 
 			System.err.println("Erro no formulário: " + errorMsg);
 
-			return redirect(controllers.routes.Application.index()); 
+			return redirect(controllers.routes.Application.index());
 		} else {
 			Meta novaMeta = loginForm.get();
 			dao.persist(novaMeta);
 			dao.merge(novaMeta);
 			dao.flush();
-			return redirect(controllers.routes.Application.index()); 
+			return redirect(controllers.routes.Application.index());
 		}
 	}
 
@@ -75,36 +74,24 @@ public class MetaController extends Controller {
 		return metas;
 	}
 
-	public static void alcancada(long id) {
-		mudarStatusDaMeta(true, id);
-	}
-
-	public static void naoAlcancada(long id) {
-		mudarStatusDaMeta(false, id);
-	}
-
 	@Transactional
-	private static void mudarStatusDaMeta(boolean foiAlcancada, long id) {
+	public static Result alcancada(long id, boolean alcancada) {
 		Meta meta = dao.findByEntityId(Meta.class, id);
 
-		if (alterarStatus(meta, foiAlcancada)) {
-			meta.setAlcancada(foiAlcancada);
-			dao.persist(meta);
-			dao.flush();
-		}
-	}
-
-	private static boolean alterarStatus(Meta meta, boolean foiAlcancada) {
-		return (meta != null && !(meta.isAlcancada() && foiAlcancada));
+		meta.setAlcancada(alcancada);
+		dao.persist(meta);
+		dao.flush();
+		return ok();
 	}
 
 	@Transactional
 	public static Result deletarMeta(Long id) {
 		System.out.println("pegaa");
-			System.out.println("pegoi");
-			System.out.println(id);
-			System.out.println("du "+ dao.findByEntityId(Meta.class, id).getDuracao());
-			dao.removeById(Meta.class, id);
-			return ok();
+		System.out.println("pegoi");
+		System.out.println(id);
+		System.out.println("du "
+				+ dao.findByEntityId(Meta.class, id).getDuracao());
+		dao.removeById(Meta.class, id);
+		return ok();
 	}
 }

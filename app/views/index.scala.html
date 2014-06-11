@@ -44,13 +44,14 @@
 	   				<h3 style="color:white;font-family:'Short Stack', cursive">Nenhuma meta para está semana</h3>
 	   			}else{
 		   			@for(meta <- todasMetas.get(i)){
-			 			<li class="green" data-id="@meta.getId()">
+			 			<li class="@if(meta.isAlcancada()) {green} else {yellow}" data-id="@meta.getId()">
 			   				<span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: @meta.getPrioridade.name()
 			   					<span style="float:right;margin-right:5px;cursor:pointer">
-			   						<a class="deletar popconfirm">x</a>
+			   						<a class="deletar popconfirm" style="color:white">x</a>
 			   					</span>
 			   				</span><span class="m-top">@meta.getDescricao()</span>
-			   				<span style="float:right;width:100%;margin-top:5px"><a style="cursor:pointer">Alcançada</a></span>
+			   				<span style="float:right;width:100%;margin-top:5px">
+			   				<button type="button" style="padding: 3px;margin-top:55px" data-toggle="button" data-id="@meta.getId()" data-alcancada="@if(meta.isAlcancada()) {1" class="btn btn-success alcancou active">Alcançada} else {0" class="btn btn-warning alcancou">Não alcançada}</button></span>
 			   			</li> 
 		   			}
 	   			}
@@ -76,7 +77,8 @@
 		            '_label -> "Descrição", 
 		            '_help -> "Obrigatório",
 		            'class -> "form-control",
-		            'required -> "required"
+		            'required -> "required",
+		            'pattern -> "^(?:\\b\\S{1,20}\\b\\s*)+$"
 		        )
 		        <label for="descricao">Piroridade da meta</label>
 		        <select name="prioridade" class="form-control">
