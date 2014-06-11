@@ -61,7 +61,7 @@ function addEvents() {
 																	.html()
 																	.trim() == "") {
 																ulElement
-																		.html('<h3 style="color:white;font-family:\'Short Stack\', cursive">Nenhuma meta para está semana</h3>')
+																		.html('<h3 style="color:white;font-family:\'Short Stack\', cursive;margin-left:40px">Nenhuma meta para está semana</h3>')
 															}
 														});
 									}

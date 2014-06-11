@@ -36,12 +36,12 @@
 	    <div id="remainingHeight">
 	    
    		@for(i <- 0 until todasMetas.length){
-			<h2 style="color:white;font-family:'Short Stack', cursive">Para @(i+1) semana</h2>
+			<h2 style="color:white;font-family:'Short Stack', cursive;margin-left:40px">Para @(i+1) semana</h2>
    			<hr class="col-md-4" style="border-top:3px dashed white;margin-top:-5px"/><br><br>
    			<div class="metas">
 	   			<ul class="sticky_notes  connectedSortable" id="sortable1"/>
 	   			@if(todasMetas.get(i).length == 0){
-	   				<h3 style="color:white;font-family:'Short Stack', cursive">Nenhuma meta para está semana</h3>
+	   				<h3 style="color:white;font-family:'Short Stack', cursive;margin-left:40px">Nenhuma meta para está semana</h3>
 	   			}else{
 		   			@for(meta <- todasMetas.get(i)){
 			 			<li class="@if(meta.isAlcancada()) {green} else {yellow}" data-id="@meta.getId()">
@@ -49,7 +49,7 @@
 			   					<span style="float:right;margin-right:5px;cursor:pointer">
 			   						<a class="deletar popconfirm" style="color:white">x</a>
 			   					</span>
-			   				</span><span class="m-top">@meta.getDescricao()</span>
+			   				</span><span class="m-top" style="padding:10px;">@meta.getDescricao()</span>
 			   				<span style="float:right;width:100%;margin-top:5px">
 			   				<button type="button" style="padding: 3px;margin-top:55px" data-toggle="button" data-id="@meta.getId()" data-alcancada="@if(meta.isAlcancada()) {1" class="btn btn-success alcancou active">Alcançada} else {0" class="btn btn-warning alcancou">Não alcançada}</button></span>
 			   			</li> 
