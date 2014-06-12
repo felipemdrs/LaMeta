@@ -51,7 +51,11 @@
 			   					</span>
 			   				</span><span class="m-top" style="padding:10px;">@meta.getDescricao()</span>
 			   				<span style="float:right;width:100%;margin-top:5px">
-			   				<button type="button" style="padding: 3px;margin-top:55px" data-toggle="button" data-id="@meta.getId()" data-alcancada="@if(meta.isAlcancada()) {1" class="btn btn-success alcancou active">Alcançada} else {0" class="btn btn-warning alcancou">Não alcançada}</button></span>
+			   				@if(meta.isAlcancada()) {
+			   					<button type="button" style="padding: 3px;margin-top:55px" data-toggle="button" data-id="@meta.getId()" data-alcancada="1" class="btn btn-success alcancou active">Alcançada</button></span>
+			   				}else{
+			   					<button type="button" style="padding: 3px;margin-top:55px" data-toggle="button" data-id="@meta.getId()" data-alcancada="0" class="btn btn-warning alcancou">Não alcançada</button></span>
+			   				}
 			   			</li> 
 		   			}
 	   			}

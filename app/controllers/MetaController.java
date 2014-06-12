@@ -11,11 +11,9 @@ import models.MetaComparator;
 import models.dao.GenericDAO;
 import models.dao.GenericDAOImpl;
 import play.data.Form;
-import play.data.validation.ValidationError;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.index;
 
 public class MetaController extends Controller {
 
@@ -31,8 +29,8 @@ public class MetaController extends Controller {
 		Form<Meta> loginForm = metaForm.bindFromRequest();
 
 		if (loginForm.hasErrors()) {
-			/* Debug */
-
+			/* Debug 
+			
 			String errorMsg = "";
 			java.util.Map<String, List<play.data.validation.ValidationError>> errorsAll = loginForm
 					.errors();
@@ -44,7 +42,7 @@ public class MetaController extends Controller {
 			}
 
 			System.err.println("Erro no formulário: " + errorMsg);
-
+			*/
 			return redirect(controllers.routes.Application.index());
 		} else {
 			Meta novaMeta = loginForm.get();
@@ -86,11 +84,6 @@ public class MetaController extends Controller {
 
 	@Transactional
 	public static Result deletarMeta(Long id) {
-		System.out.println("pegaa");
-		System.out.println("pegoi");
-		System.out.println(id);
-		System.out.println("du "
-				+ dao.findByEntityId(Meta.class, id).getDuracao());
 		dao.removeById(Meta.class, id);
 		return ok();
 	}
