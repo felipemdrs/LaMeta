@@ -6,14 +6,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import models.Meta;
 import models.MetaComparator;
 import models.dao.GenericDAO;
 import models.dao.GenericDAOImpl;
+import play.libs.Json;
+import play.api.libs.json.Writes;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
+import scala.Tuple2;
 
 public class MetaController extends Controller {
 
@@ -50,6 +57,32 @@ public class MetaController extends Controller {
 			dao.merge(novaMeta);
 			dao.flush();
 			return redirect(controllers.routes.Application.index());
+		}
+	}
+	
+	@Transactional
+	public static String todosStatus(){
+		List<Tuple2<Integer, Integer>> status = new ArrayList<>(5);
+		List<List<Meta>> todasMetas = getMetas();
+
+		Integer alcancadas;
+
+		for (int i = 0; i < todasMetas.size(); i++) {
+			alcancadas = 0;
+			for (Meta meta : todasMetas.get(i)) {
+				if (meta.isAlcancada()) {
+					alcancadas++;
+				}
+			}
+			status.add(new Tuple2<Integer, Integer>(todasMetas.get(i).size()
+					- alcancadas, alcancadas));
+		}
+		
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			return mapper.writeValueAsString(status);
+		} catch (JsonProcessingException _) {
+			return null;
 		}
 	}
 

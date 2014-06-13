@@ -1,44 +1,30 @@
-@(todasMetas: List[List[Meta]], signupForm: Form[Meta])
+@(todasMetas: List[List[Meta]], todosStatus: String, signupForm: Form[Meta])
 
 @import helper._
 
 @import helper.twitterBootstrap._
 
 @main("Welcome to Play") {
-
-
-	<nav class="navbar navbar-static-top " style="background-color: rgb(66, 75, 102);" role="navigation">
+	<nav class="navbar navbar-fixed-top" style="background-color: rgb(40, 88, 22);" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#"><span class="light-color navbar-title">Sistema de informa&ccedil;&atilde;o 1 </span></a>
+                <a class="navbar-brand" href="#"><span class="light-color navbar-title" style="color:white;font-size:30px">LaMeta</span></a>
+           		<ul class="nav navbar-nav">
+		        	<li><button class="btn btn-default fixed'" style="margin-top:8px;margin-left:30%"  data-toggle="modal" data-target="#modal-nova-meta">Nova meta</button></li>
+		       	</ul>
             </div>
         </div>
-    </nav>
-    
-    <script>
-    function fixDiv() {
-    	  var $cache = $('.fixed'); 
-    	  if ($(window).scrollTop() > 65.8) 
-    	    $cache.css({'position': 'fixed', 'top': '0', '-webkit-box-shadow': '0px 3px 4px 0px rgba(50, 50, 50, 0.58)',
-    	    '-moz-box-shadow':    '0px 3px 4px 0px rgba(50, 50, 50, 0.58)',
-    	   ' box-shadow':         '0px 3px 4px 0px rgba(50, 50, 50, 0.58)', 'padding-top':'5px'}); 
-    	  else
-    	    $cache.css({'position': 'relative', 'top': 'auto'});
-    	}
-    	$(window).scroll(fixDiv);
-    	fixDiv();
-    </script>
+    </nav> 
 
-    <div id="container">
-	    <div id="autoHeight" class="fixed" style="width:100%;z-index:1;height:50px" >
-	    	<a class="btn btn-default" style="font-size:18px;margin-left:15px" data-toggle="modal" data-target="#modal-nova-meta">Nova meta</a>
-	    </div>
+    <div id="container" data-todosStatus="@todosStatus" style="margin-top:100px">
 	    <div id="remainingHeight">
 	    
    		@for(i <- 0 until todasMetas.length){
-			<h2 style="color:white;font-family:'Short Stack', cursive;margin-left:40px">Para @(i+1) semana</h2>
-   			<hr class="col-md-4" style="border-top:3px dashed white;margin-top:-5px"/><br><br>
-   			<div class="metas">
+   			<div class="metas" id="semana-@i">
+   				<div class="row">
+   					<h2 style="color:white;font-family:'Short Stack', cursive;margin-left:40px" class="col-md-3">Para @(i+1) semana</h2><h4 style="margin-top: 28px;color: white" class="status col-md-5"></h4>
+   				</div>
+   				<hr class="col-md-7" style="border-top:3px dashed white;margin-top:-5px"/><br><br>
 	   			<ul class="sticky_notes  connectedSortable" id="sortable1"/>
 	   			@if(todasMetas.get(i).length == 0){
 	   				<h3 style="color:white;font-family:'Short Stack', cursive;margin-left:40px">Nenhuma meta para está semana</h3>
@@ -66,7 +52,7 @@
 		</div>   
 	</div>
 	
-	<!-- Modal -->
+	<!-- Modal Nova meta-->
 	<div class="modal fade" id="modal-nova-meta" tabindex="-1" role="dialog" aria-hidden="true">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
@@ -107,6 +93,4 @@
 	    </div>
 	  </div>
 	</div>
-
-
 }
