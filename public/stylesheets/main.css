@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Short Stack';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Short Stack'), local('ShortStack'), url('../fonts/Short_Stack.woff') format('woff');
+}
+
 ul h2,ul h3,ul h4,ul h5,ul h6 {
 	color: #505050;
 	font-size: 20px;

@@ -6,21 +6,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import models.Meta;
 import models.MetaComparator;
 import models.dao.GenericDAO;
 import models.dao.GenericDAOImpl;
-import play.libs.Json;
-import play.api.libs.json.Writes;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 import scala.Tuple2;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class MetaController extends Controller {
 
