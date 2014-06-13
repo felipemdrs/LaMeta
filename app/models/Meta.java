@@ -20,7 +20,7 @@ public class Meta {
 	@Column(name = "id")
 	private long id;
 
-	@Column(name = "descricao")
+	@Column(name = "descricao", length = 80)
 	@Constraints.Required
 	private String descricao;
 

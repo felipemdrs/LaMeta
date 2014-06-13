@@ -3,12 +3,12 @@
 @import helper._
 
 @main("LaMeta") {
-	<nav class="navbar navbar-fixed-top" style="background-color: rgb(40, 88, 22);" role="navigation">
+	<nav class="navbar navbar-fixed-top nav-color" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#"><span class="light-color navbar-title" style="color:white;font-size:30px">LaMeta</span></a>
+                <a class="navbar-brand" style="margin-top: 0px;" href="#"><span class="light-color navbar-title fonte-principal" style="font-size:30px;">LaMeta</span></a>
            		<ul class="nav navbar-nav">
-		        	<li><button class="btn btn-default fixed'" style="margin-top:8px;margin-left:30%"  data-toggle="modal" data-target="#modal-nova-meta">Nova meta</button></li>
+		        	<li><button class="btn btn-default fixed fonte-principal" data-toggle="modal" data-target="#modal-nova-meta">Nova meta</button></li>
 		       	</ul>
             </div>
         </div>
@@ -20,26 +20,27 @@
    		@for(i <- 0 until todasMetas.length){
    			<div class="metas" id="semana-@i">
    				<div class="row">
-   					<h2 style="color:white;font-family:'Short Stack', cursive;margin-left:40px" class="col-md-3">Para @(i+1) semana</h2><h4 style="margin-top: 28px;color: white" class="status col-md-5"></h4>
+   					<h2 style="margin-left:40px" class="col-md-3 fonte-principal">Para @(i+1) semana</h2><h4 style="margin-top: 28px;" class="status col-md-5 fonte-principal"></h4>
    				</div>
-   				<hr class="col-md-7" style="border-top:3px dashed white;margin-top:-5px"/><br><br>
-	   			<ul class="sticky_notes  connectedSortable" id="sortable1"/>
+   				<hr class="col-md-8"/><br><br>
+	   			<ul class="sticky_notes" id="lista-de-metas"/>
 	   			@if(todasMetas.get(i).length == 0){
-	   				<h3 style="color:white;font-family:'Short Stack', cursive;margin-left:40px">Nenhuma meta para está semana</h3>
+	   				<h3 class="fonte-principal" style="margin-left:40px">Nenhuma meta para está semana</h3>
 	   			}else{
 		   			@for(meta <- todasMetas.get(i)){
 			 			<li class="@if(meta.isAlcancada()) {green} else {yellow}" data-id="@meta.getId()">
-			   				<span style="width:100%;background-color:rgb(255, 115, 71);color:white;float:right">Prioridade: @meta.getPrioridade.name()
-			   					<span style="float:right;margin-right:5px;cursor:pointer">
-			   						<a class="deletar popconfirm" style="color:white">x</a>
+			   				<span class="texto-prioridade">Prioridade: @meta.getPrioridade.name()
+			   					<span class="texto-deletar">
+			   						<a class="deletar popconfirm">x</a>
 			   					</span>
-			   				</span><span class="m-top" style="padding:10px;">@meta.getDescricao()</span>
-			   				<span style="float:right;width:100%;margin-top:5px">
-			   				@if(meta.isAlcancada()) {
-			   					<button type="button" style="padding: 3px;margin-top:55px" data-toggle="button" data-id="@meta.getId()" data-alcancada="1" class="btn btn-success alcancou active">Alcançada</button></span>
-			   				}else{
-			   					<button type="button" style="padding: 3px;margin-top:55px" data-toggle="button" data-id="@meta.getId()" data-alcancada="0" class="btn btn-warning alcancou">Não alcançada</button></span>
-			   				}
+			   				</span><span class="m-top" style="padding:10px;height: 100px">@meta.getDescricao()</span>
+			   				<div class="btn-container-right">
+				   				@if(meta.isAlcancada()) {
+				   					<button type="button" data-toggle="button" data-id="@meta.getId()" data-alcancada="1" class="btn btn-success alcancou active btn-alterar-status">Alcançada</button>
+				   				}else{
+				   					<button type="button" data-toggle="button" data-id="@meta.getId()" data-alcancada="0" class="btn btn-warning alcancou btn-alterar-status">Não alcançada</button>
+				   				}
+			   				</span>
 			   			</li> 
 		   			}
 	   			}
@@ -66,7 +67,8 @@
 		            '_help -> "Obrigatório",
 		            'class -> "form-control",
 		            'required -> "required",
-		            'pattern -> "^(?:\\b\\S{1,20}\\b\\s*)+$"
+		            'pattern -> "^(?:\\b\\S{1,20}\\b\\s*)+$",
+		            'maxlength -> 80
 		        )
 		        <label for="descricao">Piroridade da meta</label>
 		        <select name="prioridade" class="form-control">
@@ -85,7 +87,7 @@
 		    }
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar	</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
 	        <button type="submit"  form="form-nova-meta" class="btn btn-primary">Criar</button>
 	      </div>
 	    </div>

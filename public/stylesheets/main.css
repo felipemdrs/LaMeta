@@ -1,8 +1,9 @@
 @font-face {
-  font-family: 'Short Stack';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Short Stack'), local('ShortStack'), url('../fonts/Short_Stack.woff') format('woff');
+	font-family: 'Short Stack';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Short Stack'), local('ShortStack'),
+		url('../fonts/Short_Stack.woff') format('woff');
 }
 
 ul h2,ul h3,ul h4,ul h5,ul h6 {
@@ -14,9 +15,14 @@ ul h2,ul h3,ul h4,ul h5,ul h6 {
 }
 
 a {
-	color: #4C7895;
-	text-decoration: none;
+	color: white !important;
+	text-decoration: none !important;
 	font-weight: bold;
+	cursor:pointer;
+	float: right;
+	margin-right:5px;
+	font-size: 15px;
+	margin-top:-3px;
 }
 
 ul {
@@ -91,14 +97,14 @@ ul.sticky_notes li:nth-child(6n) {
 	background: #cfc;
 }
 
-#sortable1 {
+#lista-de-metas {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
 	display: inline-block;
 }
 
-#sortable1 li {
+#lista-de-metas li {
 	margin: 20px 20px 20px 55px;
 	padding: 1px;
 	display: inline-block;
@@ -106,19 +112,31 @@ ul.sticky_notes li:nth-child(6n) {
 	text-align: center;
 }
 
-#sortable2 {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	display: inline-block;
+.fonte-principal {
+	color: white;
+	font-family: 'Short Stack'
 }
 
-#sortable2 li {
-	margin: 20px 20px 20px 10px;
-	padding: 1px;
-	display: inline-block;
-	float: inherit;
-	text-align: center;
+.nav-color {
+	background-color: rgb(40, 88, 22);
+}
+
+.navbar button {
+	margin-top: 8px;
+	margin-left: 30%
+}
+
+.texto-prioridade {
+	width: 100%;
+	background-color: rgb(255, 115, 71);
+	color: white;
+	float: right !important;
+}
+
+.text-deletar {
+	float: right;
+	margin-right: 5px;
+	cursor: pointer
 }
 
 html {
@@ -130,6 +148,22 @@ body {
 	margin: 0 0;
 	height: 100%;
 	background-color: rgb(82, 151, 56) !important;
+}
+
+.btn-alterar-status {
+	padding: 3px !important;
+	margin-top: 0px;
+}
+
+.btn-container-right {
+	float: right;
+	width: 100%;
+	margin-top: 5px;
+}
+
+hr {
+	border-top: 3px dashed white !important;
+	margin-top: -5px !important;
 }
 
 #container {
