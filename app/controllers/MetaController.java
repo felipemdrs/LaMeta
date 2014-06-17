@@ -27,12 +27,12 @@ public class MetaController extends Controller {
 
 	@Transactional
 	public static Result nova() {
-		Form<Meta> loginForm = metaForm.bindFromRequest();
+		Form<Meta> metaFormRequest = metaForm.bindFromRequest();
 
-		if (loginForm.hasErrors()) {
+		if (metaFormRequest.hasErrors()) {
 			return redirect(controllers.routes.Application.index());
 		} else {
-			Meta novaMeta = loginForm.get();
+			Meta novaMeta = metaFormRequest.get();
 			Application.getDao().persist(novaMeta);
 			Application.getDao().merge(novaMeta);
 			Application.getDao().flush();
