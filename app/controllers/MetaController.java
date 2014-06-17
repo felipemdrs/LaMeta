@@ -8,8 +8,6 @@ import java.util.List;
 
 import models.Meta;
 import models.MetaComparator;
-import models.dao.GenericDAO;
-import models.dao.GenericDAOImpl;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
@@ -21,7 +19,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class MetaController extends Controller {
 
-	private static GenericDAO dao = new GenericDAOImpl();
 	final static Form<Meta> metaForm = form(Meta.class);
 
 	public static Result index() {
@@ -33,26 +30,12 @@ public class MetaController extends Controller {
 		Form<Meta> loginForm = metaForm.bindFromRequest();
 
 		if (loginForm.hasErrors()) {
-			/* Debug 
-			
-			String errorMsg = "";
-			java.util.Map<String, List<play.data.validation.ValidationError>> errorsAll = loginForm
-					.errors();
-			for (String field : errorsAll.keySet()) {
-				errorMsg += field + " ";
-				for (ValidationError error : errorsAll.get(field)) {
-					errorMsg += error.message() + ", ";
-				}
-			}
-
-			System.err.println("Erro no formulário: " + errorMsg);
-			*/
 			return redirect(controllers.routes.Application.index());
 		} else {
 			Meta novaMeta = loginForm.get();
-			dao.persist(novaMeta);
-			dao.merge(novaMeta);
-			dao.flush();
+			Application.getDao().persist(novaMeta);
+			Application.getDao().merge(novaMeta);
+			Application.getDao().flush();
 			return redirect(controllers.routes.Application.index());
 		}
 	}
@@ -91,7 +74,7 @@ public class MetaController extends Controller {
 			metas.add(new ArrayList<Meta>());
 		}
 
-		List<Meta> todasMetas = dao.findAllByClassName("Meta");
+		List<Meta> todasMetas = Application.getDao().findAllByClassName("Meta");
 
 		Collections.sort(todasMetas, new MetaComparator());
 
@@ -104,17 +87,17 @@ public class MetaController extends Controller {
 
 	@Transactional
 	public static Result alcancada(long id, boolean alcancada) {
-		Meta meta = dao.findByEntityId(Meta.class, id);
+		Meta meta = Application.getDao().findByEntityId(Meta.class, id);
 
 		meta.setAlcancada(alcancada);
-		dao.persist(meta);
-		dao.flush();
+		Application.getDao().persist(meta);
+		Application.getDao().flush();
 		return ok();
 	}
 
 	@Transactional
 	public static Result deletarMeta(Long id) {
-		dao.removeById(Meta.class, id);
+		Application.getDao().removeById(Meta.class, id);
 		return ok();
 	}
 }

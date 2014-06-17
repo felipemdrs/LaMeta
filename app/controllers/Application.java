@@ -15,7 +15,8 @@ import views.html.index;
 
 public class Application extends Controller {
 
-	public final static Form<Meta> SIGNUP_FORM = form(Meta.class);
+	private final static Form<Meta> META_FORM = form(Meta.class);
+	private static GenericDAO dao = new GenericDAOImpl();
 	private static boolean criouMetasFake = false;
 
 	@Transactional
@@ -25,7 +26,7 @@ public class Application extends Controller {
 			criarMetasFake();
 		}
 
-		return ok(index.render(MetaController.getMetas(), MetaController.todosStatus(), SIGNUP_FORM));
+		return ok(index.render(MetaController.getMetas(), MetaController.todosStatus(), META_FORM));
 	}
 
 	private static void criarMetasFake() {
@@ -62,9 +63,8 @@ public class Application extends Controller {
 			criaMeta(new Meta("Minha " + String.valueOf(i++)
 					+ "ª meta fake para meu projeto de SI1", Prioridade.ALTA,
 					Duracao.TRES_SEMANAS));
-		} catch (MetaInvalidaException _) {
-		} finally {
 			criouMetasFake = true;
+		} catch (MetaInvalidaException _) {
 		}
 	}
 
@@ -73,7 +73,8 @@ public class Application extends Controller {
 		dao.persist(meta);
 		dao.flush();
 	}
-
-	private static GenericDAO dao = new GenericDAOImpl();
-
+	
+	public static GenericDAO getDao(){
+		return dao;
+	}
 }
