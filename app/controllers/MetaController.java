@@ -2,7 +2,6 @@ package controllers;
 
 import static play.data.Form.form;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -12,7 +11,6 @@ import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
-import scala.Tuple2;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,48 +39,17 @@ public class MetaController extends Controller {
 	}
 	
 	@Transactional
-	public static String todosStatus(){
-		List<Tuple2<Integer, Integer>> status = new ArrayList<>(5);
-		List<List<Meta>> todasMetas = getMetas();
+	public static Result getMetasPorSemana(int num) {
+		List<Meta> metas = Application.getDao().findByAttributeName("Meta", "duracao", String.valueOf(num));
 
-		Integer alcancadas;
+		Collections.sort(metas, new MetaComparator());
 
-		for (int i = 0; i < todasMetas.size(); i++) {
-			alcancadas = 0;
-			for (Meta meta : todasMetas.get(i)) {
-				if (meta.isAlcancada()) {
-					alcancadas++;
-				}
-			}
-			status.add(new Tuple2<Integer, Integer>(todasMetas.get(i).size()
-					- alcancadas, alcancadas));
-		}
-		
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			return mapper.writeValueAsString(status);
+			return ok(mapper.writeValueAsString(metas));
 		} catch (JsonProcessingException _) {
-			return null;
+			return badRequest();
 		}
-	}
-
-	@Transactional
-	public static List<List<Meta>> getMetas() {
-		List<List<Meta>> metas = new ArrayList<>(5);
-
-		for (int i = 0; i < 6; i++) {
-			metas.add(new ArrayList<Meta>());
-		}
-
-		List<Meta> todasMetas = Application.getDao().findAllByClassName("Meta");
-
-		Collections.sort(todasMetas, new MetaComparator());
-
-		for (Meta meta : todasMetas) {
-			metas.get(meta.getDuracao().getTipo()).add(meta);
-		}
-
-		return metas;
 	}
 
 	@Transactional

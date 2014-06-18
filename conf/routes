@@ -9,7 +9,7 @@ GET     /                           controllers.Application.index()
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
 #Meta
-GET     /meta     					controllers.MetaController.index()
+GET     /metas/semana/:num     		controllers.MetaController.getMetasPorSemana(num: Int)
 POST    /meta                   	controllers.MetaController.nova()
 DELETE  /meta/:id                   controllers.MetaController.deletarMeta(id: Long)
-PUT     /meta/:id/:alcancada            controllers.MetaController.alcancada(id: Long, alcancada: Boolean)
+PUT     /meta/:id/:alcancada        controllers.MetaController.alcancada(id: Long, alcancada: Boolean)

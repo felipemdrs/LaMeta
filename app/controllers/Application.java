@@ -26,7 +26,7 @@ public class Application extends Controller {
 			criarMetasFake();
 		}
 
-		return ok(index.render(MetaController.getMetas(), MetaController.todosStatus(), META_FORM));
+		return ok(index.render(META_FORM));
 	}
 
 	private static void criarMetasFake() {

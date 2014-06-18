@@ -1,4 +1,4 @@
-@(todasMetas: List[List[Meta]], todosStatus: String, signupForm: Form[Meta])
+@(metasForm: Form[Meta])
 
 @import helper._
 
@@ -8,47 +8,64 @@
             <div class="navbar-header">
                 <a class="navbar-brand" style="margin-top: 0px;" href="#"><span class="light-color navbar-title fonte-principal" style="font-size:30px;">LaMeta</span></a>
            		<ul class="nav navbar-nav">
-		        	<li><button class="btn btn-default fixed fonte-principal" data-toggle="modal" data-target="#modal-nova-meta">Nova meta</button></li>
+		        	<li>
+		        		<button class="btn btn-default fixed fonte-principal" data-toggle="modal" data-target="#modal-nova-meta">Nova meta</button></li>
+		        	<li style="margin-left:50px">
+			        	<div class="btn-group fonte-principal">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+								<span class="dropdown-semana">Semana</span> <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" style="color:black!important">
+								<li><a href="#" onclick='atualizarMetas(0);'>1 Semana</a></li>
+								<li><a href="#" onclick='atualizarMetas(1);'>2 Semanas</a></li>
+								<li><a href="#" onclick='atualizarMetas(2);'>3 Semanas</a></li>
+								<li><a href="#" onclick='atualizarMetas(3);'>4 Semanas</a></li>
+								<li><a href="#" onclick='atualizarMetas(4);'>5 Semanas</a></li>
+								<li><a href="#" onclick='atualizarMetas(5);'>6 Semanas</a></li>
+							</ul>
+						</div>
+					</li>
 		       	</ul>
             </div>
         </div>
     </nav> 
 
-    <div id="container" data-todosStatus="@todosStatus" style="margin-top:100px">
+    <div id="container" style="margin-top:50px">
 	    <div id="remainingHeight">
-	    
-   		@for(i <- 0 until todasMetas.length){
-   			<div class="metas" id="semana-@i">
-   				<div class="row">
-   					<h2 style="margin-left:40px" class="col-md-3 fonte-principal">Para @(i+1) semana</h2><h4 style="margin-top: 28px;" class="status col-md-5 fonte-principal"></h4>
-   				</div>
-   				<hr class="col-md-8"/><br><br>
-	   			<ul class="sticky_notes" id="lista-de-metas"/>
-	   			@if(todasMetas.get(i).length == 0){
-	   				<h3 class="fonte-principal" style="margin-left:40px">Nenhuma meta para está semana</h3>
-	   			}else{
-		   			@for(meta <- todasMetas.get(i)){
-			 			<li class="@if(meta.isAlcancada()) {green} else {yellow}" data-id="@meta.getId()">
-			   				<span class="texto-prioridade">Prioridade: @meta.getPrioridade.name()
-			   					<span class="texto-deletar">
-			   						<a class="deletar popconfirm">x</a>
-			   					</span>
-			   				</span><span class="m-top" style="padding:10px;height: 100px">@meta.getDescricao()</span>
-			   				<div class="btn-container-right">
-				   				@if(meta.isAlcancada()) {
-				   					<button type="button" data-toggle="button" data-id="@meta.getId()" data-alcancada="1" class="btn btn-success alcancou active btn-alterar-status">Alcançada</button>
-				   				}else{
-				   					<button type="button" data-toggle="button" data-id="@meta.getId()" data-alcancada="0" class="btn btn-warning alcancou btn-alterar-status">Não alcançada</button>
-				   				}
-			   				</span>
-			   			</li> 
-		   			}
-	   			}
-	   			</ul>
-   			</div>
-   		}
-	
+	    	<div class="metas" id="metas-da-semana">
+				<div class="row">
+					<h2 style="margin-left: 40px" class="col-md-3 fonte-principal semana-meta">Para 2 semanas</h2>
+					<h4 style="margin-top: 28px;" class="status col-md-5 fonte-principal"></h4>
+				</div>
+				<hr class="col-md-8" />
+				<br> <br>
+				<ul class="sticky_notes" id="lista-de-metas">
+				</ul>
+			</div>
 		</div>   
+	</div>
+
+		<ul id="meta-template" style="display:none">
+			<li>
+				<span>
+					<span class="texto-prioridade"></span>
+					<a class="deletar popconfirm link-close texto-deletar" style="margin-top:-17px">x</a>
+				</span>
+				<span class="m-top meta-descricao" style="padding: 10px; height: 100px"></span>
+				<div class="btn-container-right btn-status"></div>
+			</li>
+		</ul>
+
+	<div id="nenhuma-meta-template" style="display:none">
+		<h3 class="fonte-principal" style="margin-left:40px">Não há metas para esta semana</h3>
+	</div>
+	
+	<div id="btn-alcancada-template" style="display:none">
+		<button type="button" data-toggle="button" class="btn btn-success alcancou active btn-alterar-status">Alcançada</button>
+	</div>
+	
+	<div id="btn-nao-alcancada-template" style="display:none">
+		<button type="button" data-toggle="button" class="btn btn-warning alcancou btn-alterar-status">Não alcançada</button>
 	</div>
 	
 	<!-- Modal Nova meta-->
@@ -62,12 +79,13 @@
 	      <div class="modal-body">
 	        @helper.form(action = routes.MetaController.nova, 'id -> "form-nova-meta") {
 			    @inputText(
-		            signupForm("descricao"), 
+		            metasForm("descricao"), 
 		            '_label -> "Descrição", 
 		            '_help -> "Obrigatório",
 		            'class -> "form-control",
 		            'required -> "required",
 		            'pattern -> "^(?:\\b\\S{1,20}\\b\\s*)+$",
+		            'title -> "Não pode haver uma palavra com mais de 20 caracteres.",
 		            'maxlength -> 80
 		        )
 		        <label for="descricao">Piroridade da meta</label>
